@@ -191,9 +191,6 @@ export default function Home() {
 
 	return (
 		<>
-			<Text position='absolute' top={0} right='15px'>
-				If you're in the sandbox, first "Open in New Window" ⬆️
-			</Text>
 			<VStack justifyContent='center' alignItems='center' h='100vh'>
 				<HStack marginBottom='10px'>
 					<Text
@@ -202,7 +199,7 @@ export default function Home() {
 						fontSize={['1.5em', '2em', '3em', '4em']}
 						fontWeight='600'
 					>
-						Let's connect with
+						Let's{' '}
 					</Text>
 					<Text
 						margin='0'
@@ -215,7 +212,7 @@ export default function Home() {
 							WebkitTextFillColor: 'transparent',
 						}}
 					>
-						Web3Modal
+						Gamble
 					</Text>
 				</HStack>
 				<HStack>
@@ -224,7 +221,7 @@ export default function Home() {
 						<Input
 							value={value}
 							onChange={handleChange}
-							placeholder='Here is a sample placeholder'
+							placeholder='Enter 0.001 here only'
 							size='sm'
 						/>
 						<Button
