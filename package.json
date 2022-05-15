@@ -1,42 +1,54 @@
 {
-  "name": "web3modal-demo",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.js",
-  "dependencies": {
-    "@chakra-ui/core": "0.8.0",
-    "@chakra-ui/css-reset": "1.1.3",
-    "@chakra-ui/icons": "1.1.7",
-    "@chakra-ui/react": "1.8.6",
-    "@coinbase/wallet-sdk": "3.0.1",
-    "@emotion/react": "11.8.1",
-    "@emotion/styled": "11.8.1",
-    "@walletconnect/web3-provider": "1.7.3",
-    "emotion-theming": "11.0.0",
-    "ethers": "5.5.4",
-    "framer-motion": "6.2.8",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-scripts": "4.0.0",
-    "styled-components": "5.3.3",
-    "walletlink": "2.5.0",
-    "web3modal": "1.9.5"
-  },
-  "devDependencies": {
-    "@babel/runtime": "7.13.8",
-    "typescript": "4.1.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+	"name": "web3modal-demo",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"main": "src/index.js",
+	"dependencies": {
+		"@chakra-ui/css-reset": "2.0.0",
+		"@chakra-ui/icons": "2.0.0",
+		"@chakra-ui/react": "2.0.0",
+		"@coinbase/wallet-sdk": "3.0.1",
+		"@emotion/react": "11.8.1",
+		"@emotion/styled": "11.8.1",
+		"@walletconnect/web3-provider": "1.7.3",
+		"assert": "^2.0.0",
+		"crypto-browserify": "^3.12.0",
+		"emotion-theming": "11.0.0",
+		"ethers": "5.5.4",
+		"framer-motion": "^6.3.3",
+		"https-browserify": "^1.0.0",
+		"os-browserify": "^0.3.0",
+		"process": "^0.11.10",
+		"react": "^18.1.0",
+		"react-app-rewired": "^2.2.1",
+		"react-dom": "^18.1.0",
+		"react-scripts": "^5.0.1",
+		"stream-browserify": "^3.0.0",
+		"stream-http": "^3.2.0",
+		"styled-components": "^5.3.5",
+		"url": "^0.11.0",
+		"util": "^0.12.4",
+		"walletlink": "2.5.0",
+		"web3modal": "1.9.5"
+	},
+	"devDependencies": {
+		"@babel/runtime": "7.13.8",
+		"typescript": "4.1.3"
+	},
+	"scripts": {
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test",
+		"eject": "react-scripts eject"
+	},
+	"resolutions": {
+		"react-scripts/webpack": "5.70.0"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
 }
