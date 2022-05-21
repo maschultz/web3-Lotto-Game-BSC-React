@@ -47,6 +47,7 @@ export default function Home() {
 	const [winDate, setWinDate] = useState('');
 	const [winnerAddress, setWinnerAddress] = useState('');
 	const [winnableAmount, setWinnableAmount] = useState('');
+	const [bnbBalance, setBnbBalance] = useState('');
 
 	const handleChange = (event) => setValue(event.target.value);
 	const handleAddrChange = (event) => setUserTypedWallet(event.target.value);
@@ -100,23 +101,25 @@ export default function Home() {
 		if (!library) return;
 
 		try {
-			console.log('starting now');
+			// console.log('starting now');
 			const signer = library.getSigner();
 			const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 			console.log(signer, contract);
 			// const ref = '0xd6a029E931E3657E3067858EDFA8cD98550a7C65';
+			const network = await library.getNetwork();
+			if (network.chainId === 56) {
+				let transaction = await contract.BuyTicket({
+					value: ethers.utils.parseEther(String(value)),
+				});
+				alert('Ticket Purchased! Use the form below to look up your entry.');
 
-			let transaction = await contract.BuyTicket({
-				value: ethers.utils.parseEther(String(value)),
-			});
-			alert('Sent!');
-
-			// const signature = await library.provider.request({
-			// 	method: 'personal_sign',
-			// 	params: [message, account],
-			// });
-			// setSignedMessage(message);
-			// setSignature(signature);
+				// const signature = await library.provider.request({
+				// 	method: 'personal_sign',
+				// 	params: [message, account],
+				// });
+				// setSignedMessage(message);
+				// setSignature(signature);
+			}
 		} catch (error) {
 			setError(error);
 		}
@@ -168,7 +171,7 @@ export default function Home() {
 		if (!library) return;
 
 		try {
-			console.log('getting List now');
+			// console.log('getting List now');
 			const signer = library.getSigner();
 			const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 			if (userTypedWallet || account) {
@@ -187,7 +190,7 @@ export default function Home() {
 				let convertWinAmountOne = BigNumber.from(winAmountOne);
 				let convertWinAmountTwo = BigNumber.from(winAmountTwo);
 
-				console.log(convertWinAmountTwo);
+				// console.log(convertWinAmountTwo);
 
 				// let winTimesFinal = ethers.utils.formatEther(convertWinAmountOne);
 				let winTimesFinal = Number(convertWinAmountOne * 1).toFixed(0);
@@ -250,36 +253,47 @@ export default function Home() {
 		async function getLastWinner() {
 			if (!library) return;
 			try {
-				console.log('getting List now');
+				// console.log('getting List now');
 				const signer = library.getSigner();
 				const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 				let lengthFromContract = await contract.getWinnersArrLength();
 
 				if (lengthFromContract) {
 					let theNumber = lengthFromContract - 1;
-					console.log(theNumber);
+					// console.log(theNumber);
 					let getWinnerAddress = await contract.winners(theNumber);
+					// console.log(getWinnerAddress);
 					setWinnerAddress(getWinnerAddress);
 				}
 			} catch (e) {
-				console.log(e);
+				// console.log(e);
+				setWinnerAddress('No previous winner yet.');
 			}
 		}
 		getLastWinner();
 	}, [library]);
 
 	useEffect(() => {
+		async function getBnbBalance() {
+			fetch(
+				'https://api.bscscan.com/api?module=stats&action=bnbprice&apikey=WPXHMQ82ITJSTF6R4QU5QWW3UXVPDAZQ2T'
+			)
+				.then((response) => response.json())
+				.then((data) => setBnbBalance(data.result.ethusd));
+		}
+		getBnbBalance();
+	}, [bnbBalance]);
+
+	useEffect(() => {
 		async function getWinnableAmount() {
 			if (!library) return;
 			try {
-				console.log('Winnable amount being gathered');
 				const signer = library.getSigner();
 				const token = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 				const balance = await token.getContractBalance();
 
 				let theBalance = ethers.utils.formatEther(balance);
 
-				console.log('the new balance is: ' + theBalance);
 				if (theBalance) {
 					setWinnableAmount(theBalance);
 				}
@@ -288,11 +302,28 @@ export default function Home() {
 			}
 		}
 		getWinnableAmount();
-	}, [library]);
+	}, [library, winnableAmount]);
+
+	let usdValue = winnableAmount * bnbBalance;
 
 	return (
 		<>
 			<Flex>
+				<Box p='4' textColor='#666'>
+					<Text>
+						{account ? (
+							<CheckCircleIcon color='green' />
+						) : (
+							<WarningIcon color='#cd5700' />
+						)}
+						{` Connection Status`}
+					</Text>
+
+					<Tooltip label={account} placement='right'>
+						<Text>{`Account: ${truncateAddress(account)}`}</Text>
+					</Tooltip>
+					<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text>
+				</Box>
 				<Spacer />
 				<Box p='4'>
 					<HStack>
@@ -308,10 +339,9 @@ export default function Home() {
 				justifyContent='center'
 				alignItems='center'
 				h='100vh'
-				marginTop='-60px'
 				textColor='#c3c3c3'
 			>
-				<HStack paddingTop='0px' paddingBottom='20px'>
+				<HStack paddingTop='150px' paddingBottom='20px'>
 					<Logo />
 				</HStack>
 				<HStack marginBottom='10px'>
@@ -347,7 +377,7 @@ export default function Home() {
 							placeholder='0.01'
 							size='sm'
 							borderRadius='10px'
-							borderColor='#555'
+							borderColor='#743ad5'
 							p='5'
 						/>
 						<Button
@@ -364,8 +394,12 @@ export default function Home() {
 					</FormControl>
 				</HStack>
 				<VStack>
-					<HStack>Winnable amount in this round:</HStack>
-					<HStack>{winnableAmount}</HStack>
+					<HStack>
+						<Text>
+							Winnable amount in this round: {winnableAmount} BNB ($
+							{usdValue.toFixed(2)})
+						</Text>
+					</HStack>
 				</VStack>
 				<Spacer />
 				{/* <HStack textAlign='left' width='60%'>
@@ -374,7 +408,13 @@ export default function Home() {
 						{userTypedWallet ?? 'Enter a wallet address to see entry details.'}
 					</Text>
 				</HStack> */}
-				<VStack bg='#2d2d2d' p='10' borderRadius='20px' width='680px'>
+				<VStack
+					bg='#2d2d2d'
+					p='10'
+					borderRadius='20px'
+					width='50%'
+					className='border-gradient border-gradient-purple'
+				>
 					<Text fontSize={['1.4em']} fontWeight='bold'>
 						Latest Winner
 					</Text>
@@ -385,7 +425,11 @@ export default function Home() {
 						</Text>
 					</VStack>
 				</VStack>
-				<VStack bg='#2d2d2d' p='10' borderRadius='20px' width='680px'>
+				<VStack
+					bg='#2d2d2d'
+					p='10'
+					className='border-gradient border-gradient-red'
+				>
 					<Text fontSize='1.3em' fontWeight='bold'>
 						Entry Lookup:
 					</Text>
@@ -501,22 +545,10 @@ export default function Home() {
 				)} */}
 				<Text>{error ? error.message : null}</Text>
 			</VStack>
-			<Flex textColor='#666' textAlign='right'>
+			{/* <Flex textColor='#666' textAlign='right'>
 				<Spacer />
-				<Box p='4'>
-					{account ? (
-						<CheckCircleIcon color='green' />
-					) : (
-						<WarningIcon color='#cd5700' />
-					)}
-					<Text>{`Connection Status`}</Text>
-
-					<Tooltip label={account} placement='right'>
-						<Text>{`Account: ${truncateAddress(account)}`}</Text>
-					</Tooltip>
-					<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text>
-				</Box>
-			</Flex>
+				
+			</Flex> */}
 		</>
 	);
 }

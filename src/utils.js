@@ -12,7 +12,7 @@ export const toHex = (num) => {
 	return '0x' + val.toString(16);
 };
 
-export const CONTRACT_ADDRESS = '0xCae6D9a0b3681cCD2b5C02131ec3Faf03EeD72B6';
+export const CONTRACT_ADDRESS = '0x176E890f2Bb97747eb96a87Cebb7348423f1DCb2';
 // export const CONTRACT_ADDRESS = '0x9b3e28FCA70cC30F2ba5F7F5d791499CB683A404'; /mainnet (need redeploy with new function to reset)
 export const ABI = [
 	{
