@@ -432,7 +432,7 @@ export default function Home() {
 				<VStack>
 					<HStack>
 						<Text>
-							Winnable amount in this round:{' '}
+							Winnable amount in this round so far:{' '}
 							<u>
 								{winnableAmount} BNB ($
 								{usdValue.toFixed(2)})
@@ -590,7 +590,7 @@ export default function Home() {
 						</Box>
 					</HStack>
 				)} */}
-				<Text>{error ? error.message : null}</Text>
+				{/* <Text>{error ? error.message : null}</Text> */}
 			</VStack>
 			{/* <Flex textColor='#666' textAlign='right'>
 				<Spacer />
