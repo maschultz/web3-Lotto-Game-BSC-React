@@ -7,6 +7,7 @@ import {
 	HStack,
 	Select,
 	FormControl,
+	Link,
 	Spacer,
 	FormLabel,
 	FormErrorMessage,
@@ -359,13 +360,8 @@ export default function Home() {
 					</HStack>
 				</Box>
 			</Flex>
-			<VStack
-				justifyContent='center'
-				alignItems='center'
-				h='100vh'
-				textColor='#c3c3c3'
-			>
-				<HStack paddingTop='150px' paddingBottom='20px'>
+			<VStack justifyContent='center' alignItems='center' textColor='#c3c3c3'>
+				<HStack paddingBottom='20px'>
 					<Logo />
 				</HStack>
 				<HStack marginBottom='10px'>
@@ -392,18 +388,39 @@ export default function Home() {
 						DONOR
 					</Text>
 				</HStack>
-				<HStack textColor='#5879dd'>
+				<HStack>
 					<Text>
 						by{' '}
-						<u>
-							<span>
-								<a href='https://bloodmoonproject.com/' target='_blank'>
-									Blood Moon
-								</a>
-							</span>
-						</u>
+						<span>
+							<Link
+								href='https://bloodmoonproject.com/'
+								color='purple.500'
+								isExternal
+							>
+								Blood Moon
+							</Link>
+						</span>
 					</Text>
 				</HStack>
+				<Spacer />
+				<HStack width={['90%', '80%', '80%', '40%']}>
+					<Text>
+						Rules: 0.01 BNB per bet, only one winner will be randomly selected
+						per week to win the prize. 90% of the winnings go to the winner, and
+						10% goes to fund Blood Moon's{' '}
+						<Link
+							href='https://app.unicrypt.network/chain/bsc/farm/0x1692FEFBde53bb9E7909ee8Cd9b645aE5E94f816'
+							isExternal
+							color='purple.500'
+						>
+							staking
+						</Link>
+						.
+					</Text>
+				</HStack>
+				<Spacer />
+				<Spacer />
+				<Spacer />
 				<HStack>
 					<FormControl>
 						<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
@@ -448,12 +465,16 @@ export default function Home() {
 					</HStack>
 				</VStack>
 				<Spacer />
+
+				<Spacer />
+				<Spacer />
 				{/* <HStack textAlign='left' width='60%'>
 					<Text mb='8px' textAlign='left'>
 						Wallet:{' '}
 						{userTypedWallet ?? 'Enter a wallet address to see entry details.'}
 					</Text>
 				</HStack> */}
+
 				<VStack
 					bg='#2d2d2d'
 					p='10'
@@ -471,6 +492,9 @@ export default function Home() {
 						</Text>
 					</VStack>
 				</VStack>
+				<Spacer />
+				<Spacer />
+				<Spacer />
 				<VStack
 					bg='#2d2d2d'
 					p='10'
@@ -591,6 +615,13 @@ export default function Home() {
 					</HStack>
 				)} */}
 				{/* <Text>{error ? error.message : null}</Text> */}
+			</VStack>
+			<Spacer />
+
+			<VStack>
+				<Text textColor='#fff' p='5'>
+					Copyright 2022 Blood Moon Token | All Rights Reserved
+				</Text>
 			</VStack>
 			{/* <Flex textColor='#666' textAlign='right'>
 				<Spacer />
