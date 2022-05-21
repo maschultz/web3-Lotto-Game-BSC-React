@@ -412,7 +412,7 @@ export default function Home() {
 					bg='#2d2d2d'
 					p='10'
 					borderRadius='20px'
-					width='50%'
+					width={['90%', '80%', '80%', '40%']}
 					className='border-gradient border-gradient-purple'
 				>
 					<Text fontSize={['1.4em']} fontWeight='bold'>
@@ -429,6 +429,7 @@ export default function Home() {
 					bg='#2d2d2d'
 					p='10'
 					className='border-gradient border-gradient-red'
+					width={['90%', '80%', '80%', '40%']}
 				>
 					<Text fontSize='1.3em' fontWeight='bold'>
 						Entry Lookup:
