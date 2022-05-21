@@ -12,19 +12,9 @@ export const toHex = (num) => {
 	return '0x' + val.toString(16);
 };
 
-export const CONTRACT_ADDRESS = '0x9b3e28FCA70cC30F2ba5F7F5d791499CB683A404';
+export const CONTRACT_ADDRESS = '0xCae6D9a0b3681cCD2b5C02131ec3Faf03EeD72B6';
+// export const CONTRACT_ADDRESS = '0x9b3e28FCA70cC30F2ba5F7F5d791499CB683A404'; /mainnet (need redeploy with new function to reset)
 export const ABI = [
-	{
-		inputs: [
-			{
-				internalType: 'address payable',
-				name: '_owner',
-				type: 'address',
-			},
-		],
-		stateMutability: 'nonpayable',
-		type: 'constructor',
-	},
 	{
 		anonymous: false,
 		inputs: [
@@ -103,68 +93,9 @@ export const ABI = [
 	},
 	{
 		inputs: [],
-		name: 'BuyBackandBurn',
-		outputs: [
-			{
-				internalType: 'address payable',
-				name: '',
-				type: 'address',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
 		name: 'BuyTicket',
 		outputs: [],
 		stateMutability: 'payable',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'Lottery',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'amountRaised',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: '',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'buybackPercent',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: '',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'uint256',
-				name: '_duration',
-				type: 'uint256',
-			},
-		],
-		name: 'changTime',
-		outputs: [],
-		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
@@ -219,12 +150,150 @@ export const ABI = [
 		type: 'function',
 	},
 	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_duration',
+				type: 'uint256',
+			},
+		],
+		name: 'changTime',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'Lottery',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_value',
+				type: 'uint256',
+			},
+		],
+		name: 'migrateFunds',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'ResetStuckTimer',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		stateMutability: 'payable',
+		type: 'receive',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address payable',
+				name: '_buyBack',
+				type: 'address',
+			},
+			{
+				internalType: 'address payable',
+				name: '_market',
+				type: 'address',
+			},
+		],
+		name: 'updateWallets',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address payable',
+				name: '_owner',
+				type: 'address',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
+	{
+		inputs: [],
+		name: 'amountRaised',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'BuyBackandBurn',
+		outputs: [
+			{
+				internalType: 'address payable',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'buybackPercent',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
 		inputs: [],
 		name: 'endTime',
 		outputs: [
 			{
 				internalType: 'uint256',
 				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getContractBalance',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getWinnersArrLength',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: 'count',
 				type: 'uint256',
 			},
 		],
@@ -255,19 +324,6 @@ export const ABI = [
 			},
 		],
 		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'uint256',
-				name: '_value',
-				type: 'uint256',
-			},
-		],
-		name: 'migrateFunds',
-		outputs: [],
-		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
@@ -377,24 +433,6 @@ export const ABI = [
 	{
 		inputs: [
 			{
-				internalType: 'address payable',
-				name: '_buyBack',
-				type: 'address',
-			},
-			{
-				internalType: 'address payable',
-				name: '_market',
-				type: 'address',
-			},
-		],
-		name: 'updateWallets',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
 				internalType: 'address',
 				name: '',
 				type: 'address',
@@ -472,9 +510,5 @@ export const ABI = [
 		],
 		stateMutability: 'view',
 		type: 'function',
-	},
-	{
-		stateMutability: 'payable',
-		type: 'receive',
 	},
 ];

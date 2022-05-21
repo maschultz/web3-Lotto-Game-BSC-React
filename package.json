@@ -8,10 +8,9 @@
 		"@chakra-ui/css-reset": "2.0.0",
 		"@chakra-ui/icons": "2.0.0",
 		"@chakra-ui/react": "2.0.0",
-		"@coinbase/wallet-sdk": "3.0.1",
 		"@emotion/react": "11.8.1",
 		"@emotion/styled": "11.8.1",
-		"@walletconnect/web3-provider": "1.7.3",
+		"@walletconnect/web3-provider": "1.7.8",
 		"assert": "^2.0.0",
 		"crypto-browserify": "^3.12.0",
 		"emotion-theming": "11.0.0",
@@ -30,7 +29,7 @@
 		"url": "^0.11.0",
 		"util": "^0.12.4",
 		"walletlink": "2.5.0",
-		"web3modal": "1.9.5"
+		"web3modal": "1.9.7"
 	},
 	"devDependencies": {
 		"@babel/runtime": "7.13.8",

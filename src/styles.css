@@ -1,4 +1,9 @@
 body {
-  font-family: Inter;
-  text-align: center;
+	font-family: Inter;
+	background-color: #333;
+	text-align: center;
+}
+
+.resizecorss {
+	/* border: 1px solid red; */
 }

@@ -3,9 +3,11 @@ import {
 	VStack,
 	Button,
 	Text,
+	Flex,
 	HStack,
 	Select,
 	FormControl,
+	Spacer,
 	FormLabel,
 	FormErrorMessage,
 	FormHelperText,
@@ -16,10 +18,11 @@ import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { Tooltip } from '@chakra-ui/react';
 import { networkParams } from './networks';
 import { toHex, truncateAddress } from './utils';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import Web3Modal from 'web3modal';
 import { providerOptions } from './providerOptions';
 import { CONTRACT_ADDRESS, ABI } from './utils';
+import { Logo } from './components/logo';
 
 const web3Modal = new Web3Modal({
 	cacheProvider: true, // optional
@@ -27,7 +30,8 @@ const web3Modal = new Web3Modal({
 });
 
 export default function Home() {
-	const [value, setValue] = useState('');
+	const [value, setValue] = useState('0.01');
+	const [userTypedWallet, setUserTypedWallet] = useState('');
 	const [provider, setProvider] = useState();
 	const [library, setLibrary] = useState();
 	const [account, setAccount] = useState();
@@ -38,8 +42,14 @@ export default function Home() {
 	const [message, setMessage] = useState('');
 	const [signedMessage, setSignedMessage] = useState('');
 	const [verified, setVerified] = useState();
+	const [entryAmount, setEntryAmount] = useState('');
+	const [winTimes, setWinTimes] = useState('');
+	const [winDate, setWinDate] = useState('');
+	const [winnerAddress, setWinnerAddress] = useState('');
+	const [winnableAmount, setWinnableAmount] = useState('');
 
 	const handleChange = (event) => setValue(event.target.value);
+	const handleAddrChange = (event) => setUserTypedWallet(event.target.value);
 
 	const connectWallet = async () => {
 		try {
@@ -153,6 +163,53 @@ export default function Home() {
 		refreshState();
 	};
 
+	const runHolders = async (e) => {
+		e.preventDefault();
+		if (!library) return;
+
+		try {
+			console.log('getting List now');
+			const signer = library.getSigner();
+			const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+			if (userTypedWallet || account) {
+				if (userTypedWallet == '' || userTypedWallet == null) {
+					setUserTypedWallet(account);
+				}
+				let transaction = await contract.userContribution(userTypedWallet);
+				let transactionTwo = await contract.userData(userTypedWallet);
+				let transactionAmount = toHex(transaction);
+				let getAmount = BigNumber.from(transactionAmount);
+				let finalAmount = ethers.utils.formatEther(getAmount);
+
+				let winAmountOne = transactionTwo[0];
+				let winAmountTwo = transactionTwo[1];
+
+				let convertWinAmountOne = BigNumber.from(winAmountOne);
+				let convertWinAmountTwo = BigNumber.from(winAmountTwo);
+
+				console.log(convertWinAmountTwo);
+
+				// let winTimesFinal = ethers.utils.formatEther(convertWinAmountOne);
+				let winTimesFinal = Number(convertWinAmountOne * 1).toFixed(0);
+				var d = new Date(0);
+				d.setUTCSeconds(convertWinAmountTwo);
+				let dateFinal = d.toString();
+				setEntryAmount(finalAmount);
+				setWinTimes(winTimesFinal);
+				setWinDate(dateFinal);
+			}
+
+			// const signature = await library.provider.request({
+			// 	method: 'personal_sign',
+			// 	params: [message, account],
+			// });
+			// setSignedMessage(message);
+			// setSignature(signature);
+		} catch (error) {
+			setError(error);
+		}
+	};
+
 	useEffect(() => {
 		if (web3Modal.cachedProvider) {
 			connectWallet();
@@ -189,17 +246,83 @@ export default function Home() {
 		}
 	}, [provider]);
 
+	useEffect(() => {
+		async function getLastWinner() {
+			if (!library) return;
+			try {
+				console.log('getting List now');
+				const signer = library.getSigner();
+				const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+				let lengthFromContract = await contract.getWinnersArrLength();
+
+				if (lengthFromContract) {
+					let theNumber = lengthFromContract - 1;
+					console.log(theNumber);
+					let getWinnerAddress = await contract.winners(theNumber);
+					setWinnerAddress(getWinnerAddress);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		getLastWinner();
+	}, [library]);
+
+	useEffect(() => {
+		async function getWinnableAmount() {
+			if (!library) return;
+			try {
+				console.log('Winnable amount being gathered');
+				const signer = library.getSigner();
+				const token = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+				const balance = await token.getContractBalance();
+
+				let theBalance = ethers.utils.formatEther(balance);
+
+				console.log('the new balance is: ' + theBalance);
+				if (theBalance) {
+					setWinnableAmount(theBalance);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		getWinnableAmount();
+	}, [library]);
+
 	return (
 		<>
-			<VStack justifyContent='center' alignItems='center' h='100vh'>
+			<Flex>
+				<Spacer />
+				<Box p='4'>
+					<HStack>
+						{!account ? (
+							<Button onClick={connectWallet}>Connect Wallet</Button>
+						) : (
+							<Button onClick={disconnect}>Disconnect</Button>
+						)}
+					</HStack>
+				</Box>
+			</Flex>
+			<VStack
+				justifyContent='center'
+				alignItems='center'
+				h='100vh'
+				marginTop='-60px'
+				textColor='#c3c3c3'
+			>
+				<HStack paddingTop='0px' paddingBottom='20px'>
+					<Logo />
+				</HStack>
 				<HStack marginBottom='10px'>
 					<Text
 						margin='0'
 						lineHeight='1.15'
 						fontSize={['1.5em', '2em', '3em', '4em']}
 						fontWeight='600'
+						textColor='#c3c3c3	'
 					>
-						Let's{' '}
+						BLOOD{' '}
 					</Text>
 					<Text
 						margin='0'
@@ -207,22 +330,25 @@ export default function Home() {
 						fontSize={['1.5em', '2em', '3em', '4em']}
 						fontWeight='600'
 						sx={{
-							background: 'linear-gradient(90deg, #1652f0 0%, #b9cbfb 70.35%)',
+							background: 'linear-gradient(90deg, #C71111 0%, #851212 70.35%)',
 							WebkitBackgroundClip: 'text',
 							WebkitTextFillColor: 'transparent',
 						}}
 					>
-						Gamble
+						DONOR
 					</Text>
 				</HStack>
 				<HStack>
 					<FormControl>
-						<Text mb='8px'>Value: {value}</Text>
+						<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
 						<Input
 							value={value}
 							onChange={handleChange}
-							placeholder='Enter 0.001 here only'
+							placeholder='0.01'
 							size='sm'
+							borderRadius='10px'
+							borderColor='#555'
+							p='5'
 						/>
 						<Button
 							mt={4}
@@ -230,34 +356,76 @@ export default function Home() {
 							// isLoading={props.isSubmitting}
 							type='submit'
 							onClick={handleSubmit}
+							backgroundColor='#A80808'
+							color='#c3c3c3'
 						>
 							Submit
 						</Button>
 					</FormControl>
 				</HStack>
-				<HStack>
-					{!account ? (
-						<Button onClick={connectWallet}>Connect Wallet</Button>
-					) : (
-						<Button onClick={disconnect}>Disconnect</Button>
-					)}
-				</HStack>
-				<VStack justifyContent='center' alignItems='center' padding='10px 0'>
-					<HStack>
-						<Text>{`Connection Status: `}</Text>
-						{account ? (
-							<CheckCircleIcon color='green' />
-						) : (
-							<WarningIcon color='#cd5700' />
-						)}
-					</HStack>
-
-					<Tooltip label={account} placement='right'>
-						<Text>{`Account: ${truncateAddress(account)}`}</Text>
-					</Tooltip>
-					<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text>
+				<VStack>
+					<HStack>Winnable amount in this round:</HStack>
+					<HStack>{winnableAmount}</HStack>
 				</VStack>
-				{account && (
+				<Spacer />
+				{/* <HStack textAlign='left' width='60%'>
+					<Text mb='8px' textAlign='left'>
+						Wallet:{' '}
+						{userTypedWallet ?? 'Enter a wallet address to see entry details.'}
+					</Text>
+				</HStack> */}
+				<VStack bg='#2d2d2d' p='10' borderRadius='20px' width='680px'>
+					<Text fontSize={['1.4em']} fontWeight='bold'>
+						Latest Winner
+					</Text>
+
+					<VStack justifyContent='center' alignItems='center' padding='10px 0'>
+						<Text>
+							<strong>{winnerAddress}</strong>
+						</Text>
+					</VStack>
+				</VStack>
+				<VStack bg='#2d2d2d' p='10' borderRadius='20px' width='680px'>
+					<Text fontSize='1.3em' fontWeight='bold'>
+						Entry Lookup:
+					</Text>
+
+					<FormControl>
+						<Input
+							value={userTypedWallet}
+							onChange={handleAddrChange}
+							placeholder='0x12345....'
+							size='sm'
+							borderRadius='10px'
+							borderColor='#555'
+							p='5'
+						/>
+						<Button
+							mt={4}
+							colorScheme='teal'
+							// isLoading={props.isSubmitting}
+							type='submit'
+							backgroundColor='#A80808'
+							color='#c3c3c3'
+							onClick={(e) => runHolders(e)}
+						>
+							Submit
+						</Button>
+					</FormControl>
+					<VStack justifyContent='center' alignItems='center' padding='10px 0'>
+						<Text>
+							<strong>Amount Entered:</strong> <u>{entryAmount}</u>
+						</Text>
+						<Text>
+							<strong>Past Wins:</strong> <u>{winTimes}</u>
+						</Text>
+						<Text>
+							<strong>Last Win At:</strong> <u>{winDate}</u>
+						</Text>
+					</VStack>
+				</VStack>
+
+				{/* {account && (
 					<HStack justifyContent='flex-start' alignItems='flex-start'>
 						<Box
 							maxW='sm'
@@ -330,9 +498,25 @@ export default function Home() {
 							</VStack>
 						</Box>
 					</HStack>
-				)}
+				)} */}
 				<Text>{error ? error.message : null}</Text>
 			</VStack>
+			<Flex textColor='#666' textAlign='right'>
+				<Spacer />
+				<Box p='4'>
+					{account ? (
+						<CheckCircleIcon color='green' />
+					) : (
+						<WarningIcon color='#cd5700' />
+					)}
+					<Text>{`Connection Status`}</Text>
+
+					<Tooltip label={account} placement='right'>
+						<Text>{`Account: ${truncateAddress(account)}`}</Text>
+					</Tooltip>
+					<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text>
+				</Box>
+			</Flex>
 		</>
 	);
 }
