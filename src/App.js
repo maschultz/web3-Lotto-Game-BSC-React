@@ -48,6 +48,7 @@ export default function Home() {
 	const [winnerAddress, setWinnerAddress] = useState('');
 	const [winnableAmount, setWinnableAmount] = useState('');
 	const [bnbBalance, setBnbBalance] = useState('');
+	const [drawingDate, setDrawingDate] = useState('');
 
 	const handleChange = (event) => setValue(event.target.value);
 	const handleAddrChange = (event) => setUserTypedWallet(event.target.value);
@@ -274,6 +275,29 @@ export default function Home() {
 	}, [library]);
 
 	useEffect(() => {
+		async function getDrawingDate() {
+			if (!library) return;
+			try {
+				// console.log('getting List now');
+				const signer = library.getSigner();
+				const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+				let endDate = await contract.endTime();
+				// console.log(endDate);
+				if (endDate) {
+					var d = new Date(0);
+					d.setUTCSeconds(endDate);
+					let dateFinal = d.toString();
+					setDrawingDate(dateFinal);
+				}
+			} catch (e) {
+				console.log(e);
+				// setWinnerAddress('No previous winner yet.');
+			}
+		}
+		getDrawingDate();
+	}, [drawingDate, library]);
+
+	useEffect(() => {
 		async function getBnbBalance() {
 			fetch(
 				'https://api.bscscan.com/api?module=stats&action=bnbprice&apikey=WPXHMQ82ITJSTF6R4QU5QWW3UXVPDAZQ2T'
@@ -368,6 +392,18 @@ export default function Home() {
 						DONOR
 					</Text>
 				</HStack>
+				<HStack textColor='#5879dd'>
+					<Text>
+						by{' '}
+						<u>
+							<span>
+								<a href='https://bloodmoonproject.com/' target='_blank'>
+									Blood Moon
+								</a>
+							</span>
+						</u>
+					</Text>
+				</HStack>
 				<HStack>
 					<FormControl>
 						<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
@@ -396,8 +432,18 @@ export default function Home() {
 				<VStack>
 					<HStack>
 						<Text>
-							Winnable amount in this round: {winnableAmount} BNB ($
-							{usdValue.toFixed(2)})
+							Winnable amount in this round:{' '}
+							<u>
+								{winnableAmount} BNB ($
+								{usdValue.toFixed(2)})
+							</u>
+						</Text>
+					</HStack>
+				</VStack>
+				<VStack>
+					<HStack>
+						<Text>
+							Next drawing on: <u>{drawingDate}</u>
 						</Text>
 					</HStack>
 				</VStack>
