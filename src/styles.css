@@ -1,9 +1,27 @@
 body {
 	font-family: Inter;
-	background-color: #333;
 	text-align: center;
 }
 
+.header-bg {
+	background-image: url('../public/images/bg-main.jpg');
+	background-repeat: no-repeat;
+	background-position: center -130%;
+}
+.fuckall {
+	overflow-wrap: break-word;
+}
+.maincontent {
+	/* border: 1px solid red; */
+	padding-top: 70px;
+	margin-top: 200px;
+	background: #050400bf;
+	border: 4px solid rgb(174, 149, 10);
+	border-radius: 20px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
 .border-gradient {
 	border: 10px solid;
 	border-image-slice: 1;

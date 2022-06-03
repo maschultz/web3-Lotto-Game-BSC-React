@@ -333,214 +333,216 @@ export default function Home() {
 
 	return (
 		<>
-			<Flex>
-				<Box p='4' textColor='#666'>
-					<Text>
-						{account ? (
-							<CheckCircleIcon color='green' />
-						) : (
-							<WarningIcon color='#cd5700' />
-						)}
-						{` Connection Status`}
-					</Text>
-
-					<Tooltip label={account} placement='right'>
-						<Text>{`Account: ${truncateAddress(account)}`}</Text>
-					</Tooltip>
-					<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text>
-				</Box>
-				<Spacer />
-				<Box p='4'>
-					<HStack>
-						{!account ? (
-							<Button onClick={connectWallet}>Connect Wallet</Button>
-						) : (
-							<Button onClick={disconnect}>Disconnect</Button>
-						)}
+			<div className='header-bg'>
+				<Flex justifyContent='space-between'>
+					<Box p='4' textColor='#666' width='50'>
+						<Text>
+							{/* {account ? (
+								<CheckCircleIcon color='green' />
+							) : (
+								<WarningIcon color='#cd5700' />
+							)}
+							{` Connection Status`} */}
+						</Text>
+						{/* 
+						<Tooltip label={account} placement='right'>
+							<Text>{`Account: ${truncateAddress(account)}`}</Text>
+						</Tooltip>
+						<Text>{`Network ID: ${chainId ? chainId : 'No Network'}`}</Text> */}
+					</Box>
+					<Spacer />
+					<Box p='4'>
+						<HStack>
+							{!account ? (
+								<Button onClick={connectWallet}>Connect Wallet</Button>
+							) : (
+								<Button onClick={disconnect}>Disconnect</Button>
+							)}
+						</HStack>
+					</Box>
+				</Flex>
+				<VStack
+					justifyContent='center'
+					alignItems='center'
+					textColor='#fff'
+					paddingBottom='20'
+					className='maincontent'
+				>
+					<HStack marginBottom='10px'>
+						<Text
+							margin='0'
+							lineHeight='1.15'
+							fontSize={['1.5em', '2em', '3em', '3em']}
+							fontWeight='600'
+							color='#fff'
+							// sx={{
+							// 	background:
+							// 		'linear-gradient(145deg, #826f1f 0%, #ba990f 45.35%, #c6a421 80%)',
+							// 	WebkitBackgroundClip: 'text',
+							// 	WebkitTextFillColor: 'transparent',
+							// }}
+						>
+							Tesoro Lottery – One Winner Every 3 Days!
+						</Text>
 					</HStack>
-				</Box>
-			</Flex>
-			<VStack justifyContent='center' alignItems='center' textColor='#c3c3c3'>
-				<HStack paddingBottom='20px'>
-					<Logo />
-				</HStack>
-				<HStack marginBottom='10px'>
-					<Text
-						margin='0'
-						lineHeight='1.15'
-						fontSize={['1.5em', '2em', '3em', '4em']}
-						fontWeight='600'
-						textColor='#c3c3c3	'
-					>
-						BLOOD{' '}
-					</Text>
-					<Text
-						margin='0'
-						lineHeight='1.15'
-						fontSize={['1.5em', '2em', '3em', '4em']}
-						fontWeight='600'
-						sx={{
-							background: 'linear-gradient(90deg, #C71111 0%, #851212 70.35%)',
-							WebkitBackgroundClip: 'text',
-							WebkitTextFillColor: 'transparent',
-						}}
-					>
-						DONOR
-					</Text>
-				</HStack>
-				<HStack>
-					<Text>
-						by{' '}
-						<span>
-							<Link
-								href='https://bloodmoonproject.com/'
-								color='purple.500'
-								isExternal
+					<HStack>
+						<Text>
+							by{' '}
+							<span>
+								<Link
+									href='https://tesoroecosystem.com/'
+									color='yellow.500'
+									isExternal
+								>
+									Tesoro
+								</Link>
+							</span>
+						</Text>
+					</HStack>
+					<Spacer />
+					<HStack width={['90%', '80%', '80%', '70%']}>
+						<Text>
+							Rules: 0.01 BNB per bet, only one winner will be randomly selected
+							per week to win the prize. 50% of the winnings go to the winner,
+							and 50% goes to the Tesoro community VAULT.
+						</Text>
+					</HStack>
+					<Spacer />
+					<Spacer />
+					<Spacer />
+					<HStack>
+						<FormControl>
+							<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
+							<Input
+								value={value}
+								onChange={handleChange}
+								placeholder='0.01'
+								color='#333'
+								size='lg'
+								background='#fff'
+								borderRadius='10px'
+								borderColor='#743ad5'
+								p='5'
+							/>
+							<Button
+								mt={4}
+								colorScheme='teal'
+								// isLoading={props.isSubmitting}
+								type='submit'
+								size='lg'
+								onClick={handleSubmit}
+								backgroundColor='gold'
+								color='#333'
 							>
-								Blood Moon
-							</Link>
-						</span>
-					</Text>
-				</HStack>
-				<Spacer />
-				<HStack width={['90%', '80%', '80%', '40%']}>
-					<Text>
-						Rules: 0.01 BNB per bet, only one winner will be randomly selected
-						per week to win the prize. 90% of the winnings go to the winner, and
-						10% goes to fund Blood Moon's{' '}
-						<Link
-							href='https://app.unicrypt.network/chain/bsc/farm/0x1692FEFBde53bb9E7909ee8Cd9b645aE5E94f816'
-							isExternal
-							color='purple.500'
-						>
-							staking
-						</Link>
-						.
-					</Text>
-				</HStack>
-				<Spacer />
-				<Spacer />
-				<Spacer />
-				<HStack>
-					<FormControl>
-						<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
-						<Input
-							value={value}
-							onChange={handleChange}
-							placeholder='0.01'
-							size='sm'
-							borderRadius='10px'
-							borderColor='#743ad5'
-							p='5'
-						/>
-						<Button
-							mt={4}
-							colorScheme='teal'
-							// isLoading={props.isSubmitting}
-							type='submit'
-							onClick={handleSubmit}
-							backgroundColor='#A80808'
-							color='#c3c3c3'
-						>
-							Submit
-						</Button>
-					</FormControl>
-				</HStack>
-				<VStack>
-					<HStack>
-						<Text>
-							Winnable amount in this round so far:{' '}
-							<u>
-								{winnableAmount} BNB ($
-								{usdValue.toFixed(2)})
-							</u>
-						</Text>
+								Submit
+							</Button>
+						</FormControl>
 					</HStack>
-				</VStack>
-				<VStack>
-					<HStack>
-						<Text>
-							Next drawing on: <u>{drawingDate}</u>
-						</Text>
-					</HStack>
-				</VStack>
-				<Spacer />
+					<VStack>
+						<HStack>
+							<Text>
+								Winnable amount in this round so far:{' '}
+								<u>
+									{winnableAmount} BNB ($
+									{usdValue.toFixed(2)})
+								</u>
+							</Text>
+						</HStack>
+					</VStack>
+					<VStack>
+						<HStack>
+							<Text>
+								Next drawing on: <u>{drawingDate}</u>
+							</Text>
+						</HStack>
+					</VStack>
+					<Spacer />
 
-				<Spacer />
-				<Spacer />
-				{/* <HStack textAlign='left' width='60%'>
+					<Spacer />
+					<Spacer />
+					{/* <HStack textAlign='left' width='60%'>
 					<Text mb='8px' textAlign='left'>
 						Wallet:{' '}
 						{userTypedWallet ?? 'Enter a wallet address to see entry details.'}
 					</Text>
 				</HStack> */}
 
-				<VStack
-					bg='#2d2d2d'
-					p='10'
-					borderRadius='20px'
-					width={['90%', '80%', '80%', '40%']}
-					className='border-gradient border-gradient-purple'
-				>
-					<Text fontSize={['1.4em']} fontWeight='bold'>
-						Latest Winner
-					</Text>
-
-					<VStack justifyContent='center' alignItems='center' padding='10px 0'>
-						<Text>
-							<strong>{winnerAddress}</strong>
+					<VStack
+						bg='gold'
+						p='10'
+						color='black'
+						borderRadius='20px'
+						width={['90%', '80%', '80%', '60%']}
+					>
+						<Text fontSize={['1.4em']} fontWeight='bold'>
+							Latest Winner
 						</Text>
-					</VStack>
-				</VStack>
-				<Spacer />
-				<Spacer />
-				<Spacer />
-				<VStack
-					bg='#2d2d2d'
-					p='10'
-					className='border-gradient border-gradient-red'
-					width={['90%', '80%', '80%', '40%']}
-				>
-					<Text fontSize='1.3em' fontWeight='bold'>
-						Entry Lookup:
-					</Text>
 
-					<FormControl>
-						<Input
-							value={userTypedWallet}
-							onChange={handleAddrChange}
-							placeholder='0x12345....'
-							size='sm'
-							borderRadius='10px'
-							borderColor='#555'
-							p='5'
-						/>
-						<Button
-							mt={4}
-							colorScheme='teal'
-							// isLoading={props.isSubmitting}
-							type='submit'
-							backgroundColor='#A80808'
-							color='#c3c3c3'
-							onClick={(e) => runHolders(e)}
+						<VStack
+							justifyContent='center'
+							alignItems='center'
+							padding='10px 0'
 						>
-							Submit
-						</Button>
-					</FormControl>
-					<VStack justifyContent='center' alignItems='center' padding='10px 0'>
-						<Text>
-							<strong>Amount Entered:</strong> <u>{entryAmount}</u>
-						</Text>
-						<Text>
-							<strong>Past Wins:</strong> <u>{winTimes}</u>
-						</Text>
-						<Text>
-							<strong>Last Win At:</strong> <u>{winDate}</u>
-						</Text>
+							<Text fontSize={['8px', '0.8em', '1.4em']}>
+								<strong>{winnerAddress}</strong>
+							</Text>
+						</VStack>
 					</VStack>
-				</VStack>
+					<Spacer />
+					<Spacer />
+					<Spacer />
+					<VStack
+						bg='gold'
+						p='10'
+						color='black'
+						borderRadius='20px'
+						width={['90%', '80%', '80%', '60%']}
+					>
+						<Text fontSize='1.3em' fontWeight='bold'>
+							Entry Lookup:
+						</Text>
 
-				{/* {account && (
+						<FormControl>
+							<Input
+								value={userTypedWallet}
+								onChange={handleAddrChange}
+								placeholder='0x12345....'
+								size='sm'
+								borderRadius='10px'
+								borderColor='#555'
+								p='5'
+							/>
+							<Button
+								mt={4}
+								colorScheme='teal'
+								// isLoading={props.isSubmitting}
+								type='submit'
+								size='lg'
+								backgroundColor='black'
+								color='#fefefe'
+								onClick={(e) => runHolders(e)}
+							>
+								Submit
+							</Button>
+						</FormControl>
+						<VStack
+							justifyContent='center'
+							alignItems='center'
+							padding='10px 0'
+						>
+							<Text>
+								<strong>Amount Entered:</strong> <u>{entryAmount}</u>
+							</Text>
+							<Text>
+								<strong>Past Wins:</strong> <u>{winTimes}</u>
+							</Text>
+							<Text>
+								<strong>Last Win At:</strong> <u>{winDate}</u>
+							</Text>
+						</VStack>
+					</VStack>
+
+					{/* {account && (
 					<HStack justifyContent='flex-start' alignItems='flex-start'>
 						<Box
 							maxW='sm'
@@ -614,19 +616,20 @@ export default function Home() {
 						</Box>
 					</HStack>
 				)} */}
-				{/* <Text>{error ? error.message : null}</Text> */}
-			</VStack>
-			<Spacer />
+					{/* <Text>{error ? error.message : null}</Text> */}
+				</VStack>
+				<Spacer />
 
-			<VStack>
-				<Text textColor='#fff' p='5'>
-					Copyright 2022 Blood Moon Token | All Rights Reserved
-				</Text>
-			</VStack>
-			{/* <Flex textColor='#666' textAlign='right'>
+				<VStack>
+					<Text textColor='#fff' p='5'>
+						Copyright 2022 Tesoro Ecosystem | All Rights Reserved
+					</Text>
+				</VStack>
+				{/* <Flex textColor='#666' textAlign='right'>
 				<Spacer />
 				
 			</Flex> */}
+			</div>
 		</>
 	);
 }
