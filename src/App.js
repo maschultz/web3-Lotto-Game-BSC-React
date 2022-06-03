@@ -412,7 +412,9 @@ export default function Home() {
 					<Spacer />
 					<HStack>
 						<FormControl>
-							<Text mb='8px'>Enter your bet (Max {value} per wallet):</Text>
+							<Text mb='8px' fontSize={['1em', '1.5em', '2em']} color='gold'>
+								Enter your bet (Max {value} per wallet):
+							</Text>
 							<Input
 								value={value}
 								onChange={handleChange}
