@@ -403,8 +403,8 @@ export default function Home() {
 					<HStack width={['90%', '80%', '80%', '70%']}>
 						<Text>
 							Rules: 0.01 BNB per bet, only one winner will be randomly selected
-							per week to win the prize. 50% of the winnings go to the winner,
-							and 50% goes to the Tesoro community VAULT.
+							to win the prize at the next drawing time. 50% of the winnings go
+							to the winner, and 50% goes to the Tesoro community VAULT.
 						</Text>
 					</HStack>
 					<Spacer />
