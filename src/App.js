@@ -382,7 +382,7 @@ export default function Home() {
 							// 	WebkitTextFillColor: 'transparent',
 							// }}
 						>
-							Tesoro Lottery – One Winner Every 3 Days!
+							Tesoro Lottery – One Winner Every Day!
 						</Text>
 					</HStack>
 					<HStack>
