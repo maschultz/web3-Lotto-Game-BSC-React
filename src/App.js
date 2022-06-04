@@ -382,7 +382,7 @@ export default function Home() {
 							// 	WebkitTextFillColor: 'transparent',
 							// }}
 						>
-							Tesoro Lottery – One Winner Every Day!
+							Tesoro Lottery – Winners Daily!
 						</Text>
 					</HStack>
 					<HStack>
